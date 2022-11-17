@@ -20,3 +20,7 @@ body {
     align-items: center;
     background-color: hsl(var(--hue), 100%, 20%);
 }
+
+body.correct {
+    --hue: var(--hue-correct);
+}

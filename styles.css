@@ -24,3 +24,7 @@ body {
 body.correct {
     --hue: var(--hue-correct);
 }
+
+body.wrong {
+    --hue: var(--hue-wrong);
+}

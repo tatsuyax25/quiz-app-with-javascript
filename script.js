@@ -1,8 +1,9 @@
 const startButton = document.getElementById('start-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
+const answerButtonsElement = document.getElementById('answer-buttons')
 
-const shuffledQuestions, currentQuestionIndex
+let shuffledQuestions, currentQuestionIndex
 
 startButton.addEventListener('click', startGame)
 
@@ -20,7 +21,7 @@ function setNextQuestion() {
 }
 
 function showQuestion(question) {
-
+    questionElement.innerText = question.question
 }
 
 function selectAnswer() {
@@ -29,7 +30,7 @@ function selectAnswer() {
 
 const question = [
     {
-        question: 'What is 2 + 2',
+        question: 'What is 2 + 2?',
         answers: [
             { text: '4', correct: true },
             { text: '22', correct: false }

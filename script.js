@@ -22,13 +22,23 @@ function setNextQuestion() {
 
 function showQuestion(question) {
     questionElement.innerText = question.question
+    question.answers.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+        // Setting this 'if' statement only if the answer is correct
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+    })
 }
 
 function selectAnswer() {
 
 }
 
-const question = [
+const questions = [
     {
         question: 'What is 2 + 2?',
         answers: [

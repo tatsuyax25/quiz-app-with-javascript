@@ -7,6 +7,10 @@ const answerButtonsElement = document.getElementById('answer-buttons')
 let shuffledQuestions, currentQuestionIndex
 
 startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++
+    setNextQuestion()
+})
 
 function startGame() {
     startButton.classList.add('hide')
@@ -50,7 +54,12 @@ function selectAnswer(e) {
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
     })
-    nextButton.classList.remove('hide')
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hide')
+    } else {
+        startButton.innerText = 'Restart'
+        startButton.classList.remove('hide')
+    }
 }
 
 function setStatusClass(element, correct) {
@@ -74,5 +83,26 @@ const questions = [
             { text: '4', correct: true },
             { text: '22', correct: false }
         ]
+    },
+    {
+        question: 'What is 4 * 2?',
+        answers: [
+            { text: '6', correct: false },
+            { text: '8', correct: true }
+        ] 
+    },
+    {
+        question: 'What is 100 / 50?',
+        answers: [
+            { text: '50', correct: false },
+            { text: '2', correct: true }
+        ] 
+    },
+    {
+        question: 'What is 17 % 2?',
+        answers: [
+            { text: '1', correct: true },
+            { text: '3', correct: false }
+        ] 
     }
 ]

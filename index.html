@@ -21,16 +21,36 @@
             </div>
         </header>
         <main>
-            <div id="question-container" class="hide">
-                <div id="question" role="heading" aria-level="2">Question</div>
-                <div id="answer-buttons" class="btn-grid" role="group" aria-labelledby="question">
+            <div id="setup-container">
+                <div class="setup-section">
+                    <h3>Choose Category</h3>
+                    <select id="category-select" class="select-input" aria-label="Choose quiz category">
+                        <option value="javascript">JavaScript</option>
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="react">React</option>
+                    </select>
                 </div>
+                <div class="setup-section">
+                    <h3>Choose Difficulty</h3>
+                    <select id="difficulty-select" class="select-input" aria-label="Choose difficulty level">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+            <div id="question-container" class="hide">
+                <h2 id="question">Question</h2>
+                <fieldset id="answer-buttons" class="btn-grid" aria-labelledby="question">
+                </fieldset>
+                <div id="explanation" class="explanation hide"></div>
             </div>
             <div class="controls">
                 <button id="start-btn" class="start-btn btn" aria-describedby="instructions">Start Quiz</button>
                 <button id="next-btn" class="next-btn btn hide">Next Question</button>
             </div>
-            <p id="instructions" class="instructions">Test your knowledge with this interactive quiz!</p>
+            <p id="instructions" class="instructions">Select your preferred category and difficulty level!</p>
             <div id="high-score" class="high-score hide">High Score: <span id="best-score">0</span>%</div>
         </main>
     </div>

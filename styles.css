@@ -142,6 +142,127 @@ body.dark-mode .theme-toggle:hover {
     border-color: #f39c12;
 }
 
+.setup-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.setup-section h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.select-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+.select-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.explanation.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.explanation.wrong {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+body.dark-mode .setup-section h3 {
+    color: #ecf0f1;
+}
+
+body.dark-mode .select-input {
+    background: #34495e;
+    color: #ecf0f1;
+    border-color: #7f8c8d;
+}
+
+body.dark-mode .explanation {
+    background: #34495e;
+    color: #bdc3c7;
+}
+
+body.dark-mode .explanation.correct {
+    background: #27ae60;
+    color: white;
+}
+
+body.dark-mode .explanation.wrong {
+    background: #e74c3c;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .setup-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+#question-container {
+    transition: all 0.4s ease;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#question-container.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.setup-container {
+    transition: all 0.4s ease;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.setup-container.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.explanation {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .btn-grid {
     display: grid;
     grid-template-columns: repeat(2, auto);

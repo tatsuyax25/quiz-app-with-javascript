@@ -11,9 +11,13 @@
 <body>
     <div class="container">
         <header>
-            <h1>JavaScript Quiz App</h1>
+            <div class="header-top">
+                <h1>JavaScript Quiz App</h1>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </div>
             <div id="progress" class="progress hide">
                 <span id="current-question">1</span> of <span id="total-questions">4</span>
+                <div id="timer" class="timer">⏱️ <span id="time-left">15</span>s</div>
             </div>
         </header>
         <main>
@@ -27,6 +31,7 @@
                 <button id="next-btn" class="next-btn btn hide">Next Question</button>
             </div>
             <p id="instructions" class="instructions">Test your knowledge with this interactive quiz!</p>
+            <div id="high-score" class="high-score hide">High Score: <span id="best-score">0</span>%</div>
         </main>
     </div>
 </body>

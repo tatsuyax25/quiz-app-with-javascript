@@ -6,14 +6,37 @@ const answerButtonsElement = document.getElementById('answer-buttons')
 const progressElement = document.getElementById('progress')
 const currentQuestionElement = document.getElementById('current-question')
 const totalQuestionsElement = document.getElementById('total-questions')
+const timerElement = document.getElementById('time-left')
+const highScoreElement = document.getElementById('high-score')
+const bestScoreElement = document.getElementById('best-score')
+const themeToggle = document.getElementById('theme-toggle')
 
-let shuffledQuestions, currentQuestionIndex, score
+let shuffledQuestions, currentQuestionIndex, score, timer, timeLeft
 
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
     currentQuestionIndex++
     setNextQuestion()
 })
+
+themeToggle.addEventListener('click', toggleTheme)
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode')
+    const isDark = document.body.classList.contains('dark-mode')
+    themeToggle.textContent = isDark ? '☀️' : '🌙'
+    localStorage.setItem('darkMode', isDark)
+}
+
+function loadTheme() {
+    const isDark = localStorage.getItem('darkMode') === 'true'
+    if (isDark) {
+        document.body.classList.add('dark-mode')
+        themeToggle.textContent = '☀️'
+    }
+}
+
+loadTheme()
 
 function startGame() {
     startButton.classList.add('hide')
@@ -23,6 +46,7 @@ function startGame() {
     questionContainerElement.classList.remove('hide')
     progressElement.classList.remove('hide')
     totalQuestionsElement.textContent = shuffledQuestions.length
+    loadHighScore()
     setNextQuestion()
 }
 
@@ -30,6 +54,7 @@ function setNextQuestion() {
     resetState()
     showQuestion(shuffledQuestions[currentQuestionIndex])
     updateProgress()
+    startTimer()
 }
 
 function showQuestion(question) {
@@ -51,13 +76,20 @@ function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
     answerButtonsElement.innerHTML = ''
+    clearInterval(timer)
 }
 
 function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
     
-    if (correct) score++
+    clearInterval(timer)
+    if (correct) {
+        score++
+        playSound('correct')
+    } else {
+        playSound('wrong')
+    }
     
     setStatusClass(document.body, correct)
     Array.from(answerButtonsElement.children).forEach(button => {
@@ -89,8 +121,81 @@ function updateProgress() {
     currentQuestionElement.textContent = currentQuestionIndex + 1
 }
 
+function startTimer() {
+    timeLeft = 15
+    timerElement.textContent = timeLeft
+    timer = setInterval(() => {
+        timeLeft--
+        timerElement.textContent = timeLeft
+        if (timeLeft <= 0) {
+            clearInterval(timer)
+            timeUp()
+        }
+    }, 1000)
+}
+
+function timeUp() {
+    playSound('wrong')
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+        button.disabled = true
+    })
+    setStatusClass(document.body, false)
+    
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hide')
+    } else {
+        showFinalScore()
+    }
+}
+
+function loadHighScore() {
+    const saved = localStorage.getItem('quizHighScore')
+    if (saved) {
+        bestScoreElement.textContent = saved
+        highScoreElement.classList.remove('hide')
+    }
+}
+
+function saveHighScore(percentage) {
+    const current = localStorage.getItem('quizHighScore') || 0
+    if (percentage > current) {
+        localStorage.setItem('quizHighScore', percentage)
+        bestScoreElement.textContent = percentage
+        highScoreElement.classList.remove('hide')
+        return true
+    }
+    return false
+}
+
+function playSound(type) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+    
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    
+    if (type === 'correct') {
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime)
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1)
+    } else {
+        oscillator.frequency.setValueAtTime(220, audioContext.currentTime)
+        oscillator.frequency.setValueAtTime(196, audioContext.currentTime + 0.1)
+    }
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3)
+    
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 0.3)
+}
+
 function showFinalScore() {
-    questionElement.innerText = `Quiz Complete! Your score: ${score}/${shuffledQuestions.length} (${Math.round(score/shuffledQuestions.length*100)}%)`
+    const percentage = Math.round(score/shuffledQuestions.length*100)
+    const isNewRecord = saveHighScore(percentage)
+    
+    questionElement.innerText = `Quiz Complete! Your score: ${score}/${shuffledQuestions.length} (${percentage}%)${isNewRecord ? ' 🎉 New High Score!' : ''}`
     answerButtonsElement.innerHTML = ''
     progressElement.classList.add('hide')
     startButton.innerText = 'Restart Quiz'

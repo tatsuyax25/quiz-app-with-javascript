@@ -3,8 +3,11 @@ const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
+const progressElement = document.getElementById('progress')
+const currentQuestionElement = document.getElementById('current-question')
+const totalQuestionsElement = document.getElementById('total-questions')
 
-let shuffledQuestions, currentQuestionIndex
+let shuffledQuestions, currentQuestionIndex, score
 
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
@@ -16,13 +19,17 @@ function startGame() {
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
+    score = 0
     questionContainerElement.classList.remove('hide')
+    progressElement.classList.remove('hide')
+    totalQuestionsElement.textContent = shuffledQuestions.length
     setNextQuestion()
 }
 
 function setNextQuestion() {
-    resetState() // Return to its default state 
+    resetState()
     showQuestion(shuffledQuestions[currentQuestionIndex])
+    updateProgress()
 }
 
 function showQuestion(question) {
@@ -43,23 +50,25 @@ function showQuestion(question) {
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-    }
+    answerButtonsElement.innerHTML = ''
 }
 
 function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
+    
+    if (correct) score++
+    
     setStatusClass(document.body, correct)
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
+        button.disabled = true
     })
+    
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide')
     } else {
-        startButton.innerText = 'Restart'
-        startButton.classList.remove('hide')
+        showFinalScore()
     }
 }
 
@@ -73,37 +82,74 @@ function setStatusClass(element, correct) {
 }
 
 function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
+    element.classList.remove('correct', 'wrong')
+}
+
+function updateProgress() {
+    currentQuestionElement.textContent = currentQuestionIndex + 1
+}
+
+function showFinalScore() {
+    questionElement.innerText = `Quiz Complete! Your score: ${score}/${shuffledQuestions.length} (${Math.round(score/shuffledQuestions.length*100)}%)`
+    answerButtonsElement.innerHTML = ''
+    progressElement.classList.add('hide')
+    startButton.innerText = 'Restart Quiz'
+    startButton.classList.remove('hide')
 }
 
 const questions = [
     {
-        question: 'What is 2 + 2?',
+        question: 'What does "let" do in JavaScript?',
         answers: [
-            { text: '4', correct: true },
-            { text: '22', correct: false }
+            { text: 'Declares a block-scoped variable', correct: true },
+            { text: 'Creates a global variable', correct: false },
+            { text: 'Defines a constant', correct: false },
+            { text: 'Creates a function', correct: false }
         ]
     },
     {
-        question: 'What is 4 * 2?',
+        question: 'Which method adds an element to the end of an array?',
         answers: [
-            { text: '6', correct: false },
-            { text: '8', correct: true }
-        ] 
+            { text: 'unshift()', correct: false },
+            { text: 'push()', correct: true },
+            { text: 'pop()', correct: false },
+            { text: 'shift()', correct: false }
+        ]
     },
     {
-        question: 'What is 100 / 50?',
+        question: 'What is the result of "3" + 2 in JavaScript?',
         answers: [
-            { text: '50', correct: false },
-            { text: '2', correct: true }
-        ] 
+            { text: '5', correct: false },
+            { text: '"32"', correct: true },
+            { text: 'Error', correct: false },
+            { text: 'undefined', correct: false }
+        ]
     },
     {
-        question: 'What is 17 % 2?',
+        question: 'Which operator checks for strict equality?',
         answers: [
-            { text: '1', correct: true },
-            { text: '3', correct: false }
-        ] 
+            { text: '==', correct: false },
+            { text: '===', correct: true },
+            { text: '=', correct: false },
+            { text: '!=', correct: false }
+        ]
+    },
+    {
+        question: 'What does DOM stand for?',
+        answers: [
+            { text: 'Document Object Model', correct: true },
+            { text: 'Data Object Management', correct: false },
+            { text: 'Dynamic Object Method', correct: false },
+            { text: 'Document Oriented Model', correct: false }
+        ]
+    },
+    {
+        question: 'Which method removes the last element from an array?',
+        answers: [
+            { text: 'pop()', correct: true },
+            { text: 'push()', correct: false },
+            { text: 'shift()', correct: false },
+            { text: 'splice()', correct: false }
+        ]
     }
 ]

@@ -10,18 +10,24 @@
 </head>
 <body>
     <div class="container">
-        <div id="question-container" class="hide"></div>
-        <div id="question">Question</div>
-        <div id="answer-buttons" class="btn-grid">
-            <button class="btn">Answer 1</button>
-            <button class="btn">Answer 2</button>
-            <button class="btn">Answer 3</button>
-            <button class="btn">Answer 4</button>
-        </div>
-        <div class="controls">
-            <button id="start-btn" class="start-btn btn">Start</button>
-            <button id="next-btn" class="next-btn btn hide">Next</button>
-        </div>
+        <header>
+            <h1>JavaScript Quiz App</h1>
+            <div id="progress" class="progress hide">
+                <span id="current-question">1</span> of <span id="total-questions">4</span>
+            </div>
+        </header>
+        <main>
+            <div id="question-container" class="hide">
+                <div id="question" role="heading" aria-level="2">Question</div>
+                <div id="answer-buttons" class="btn-grid" role="group" aria-labelledby="question">
+                </div>
+            </div>
+            <div class="controls">
+                <button id="start-btn" class="start-btn btn" aria-describedby="instructions">Start Quiz</button>
+                <button id="next-btn" class="next-btn btn hide">Next Question</button>
+            </div>
+            <p id="instructions" class="instructions">Test your knowledge with this interactive quiz!</p>
+        </main>
     </div>
 </body>
 </html>

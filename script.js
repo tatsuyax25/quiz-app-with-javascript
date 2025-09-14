@@ -14,6 +14,8 @@ const categorySelect = document.getElementById('category-select')
 const difficultySelect = document.getElementById('difficulty-select')
 const setupContainer = document.getElementById('setup-container')
 const explanationElement = document.getElementById('explanation')
+const progressFill = document.getElementById('progress-fill')
+const confettiContainer = document.getElementById('confetti-container')
 
 let shuffledQuestions, currentQuestionIndex, score, timer, timeLeft
 
@@ -85,6 +87,7 @@ function resetState() {
     nextButton.classList.add('hide')
     answerButtonsElement.innerHTML = ''
     explanationElement.classList.add('hide')
+    timerElement.parentElement.classList.remove('warning')
     clearInterval(timer)
 }
 
@@ -131,14 +134,20 @@ function clearStatusClass(element) {
 
 function updateProgress() {
     currentQuestionElement.textContent = currentQuestionIndex + 1
+    const percentage = ((currentQuestionIndex + 1) / shuffledQuestions.length) * 100
+    progressFill.style.width = percentage + '%'
 }
 
 function startTimer() {
     timeLeft = 15
     timerElement.textContent = timeLeft
+    timerElement.parentElement.classList.remove('warning')
     timer = setInterval(() => {
         timeLeft--
         timerElement.textContent = timeLeft
+        if (timeLeft <= 5) {
+            timerElement.parentElement.classList.add('warning')
+        }
         if (timeLeft <= 0) {
             clearInterval(timer)
             timeUp()
@@ -215,9 +224,26 @@ function getQuestionsByCategory(category, difficulty) {
     return questionBank.filter(q => q.category === category && q.difficulty === difficulty)
 }
 
+function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.animationDelay = Math.random() * 3 + 's'
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'
+        confettiContainer.appendChild(confetti)
+        
+        setTimeout(() => confetti.remove(), 5000)
+    }
+}
+
 function showFinalScore() {
     const percentage = Math.round(score/shuffledQuestions.length*100)
     const isNewRecord = saveHighScore(percentage)
+    
+    if (percentage >= 80 || isNewRecord) {
+        createConfetti()
+    }
     
     questionElement.innerText = `Quiz Complete! Your score: ${score}/${shuffledQuestions.length} (${percentage}%)${isNewRecord ? ' 🎉 New High Score!' : ''}`
     answerButtonsElement.innerHTML = ''
@@ -226,6 +252,7 @@ function showFinalScore() {
     setupContainer.classList.remove('hide')
     startButton.innerText = 'Start New Quiz'
     startButton.classList.remove('hide')
+    progressFill.style.width = '0%'
 }
 
 const questionBank = [

@@ -16,8 +16,13 @@
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
             </div>
             <div id="progress" class="progress hide">
-                <span id="current-question">1</span> of <span id="total-questions">4</span>
-                <div id="timer" class="timer">⏱️ <span id="time-left">15</span>s</div>
+                <div class="progress-info">
+                    <span id="current-question">1</span> of <span id="total-questions">4</span>
+                    <div id="timer" class="timer">⏱️ <span id="time-left">15</span>s</div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
             </div>
         </header>
         <main>
@@ -53,6 +58,7 @@
             <p id="instructions" class="instructions">Select your preferred category and difficulty level!</p>
             <div id="high-score" class="high-score hide">High Score: <span id="best-score">0</span>%</div>
         </main>
+        <div id="confetti-container" class="confetti-container"></div>
     </div>
 </body>
 </html>

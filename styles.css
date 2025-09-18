@@ -321,10 +321,84 @@ body.dark-mode .explanation.wrong {
     color: white;
 }
 
-@media (max-width: 600px) {
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
     .setup-container {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .btn {
+        padding: 18px 20px;
+        font-size: 1rem;
+        text-align: left;
+    }
+    
+    .start-btn, .next-btn {
+        font-size: 1.1rem;
+        padding: 16px 25px;
+        min-width: 140px;
+    }
+    
+    .progress {
+        padding: 0.8rem;
+    }
+    
+    .progress-info {
+        font-size: 0.9rem;
+    }
+    
+    .timer {
+        font-size: 0.9rem;
+    }
+    
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header-top {
+        flex-direction: column;
         gap: 1rem;
+        text-align: center;
+    }
+    
+    .btn {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
+    
+    .explanation {
+        font-size: 0.85rem;
+        padding: 0.8rem;
     }
 }
 

@@ -226,6 +226,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d682efed-20ea-466a-9bff-da62ec3b04c2/deploy-status)](https://app.netlify.com/projects/amazingquizjs/deploys)
+
 **Made with ❤️ for the frontend development community**
 
 *Happy coding and keep learning! 🚀*

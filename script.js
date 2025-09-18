@@ -69,7 +69,8 @@ function setNextQuestion() {
 
 function showQuestion(question) {
     questionElement.innerText = question.question
-    question.answers.forEach(answer => {
+    const shuffledAnswers = [...question.answers].sort(() => Math.random() - 0.5)
+    shuffledAnswers.forEach(answer => {
         const button = document.createElement('button')
         button.innerText = answer.text
         button.classList.add('btn')

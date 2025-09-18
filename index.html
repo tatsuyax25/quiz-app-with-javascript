@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic meta tags for proper rendering -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- External resources -->
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
+    
     <title>Frontend Dev Quiz</title>
 </head>
 <body>
+    <!-- Main container for the entire quiz application -->
     <div class="container">
+        <!-- Header section with title, theme toggle, and progress -->
         <header>
+            <!-- Top header with title and theme toggle -->
             <div class="header-top">
                 <h1>Frontend Dev Quiz</h1>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
             </div>
+            
+            <!-- Progress indicator (hidden initially) -->
             <div id="progress" class="progress hide">
                 <div class="progress-info">
                     <span id="current-question">1</span> of <span id="total-questions">4</span>
@@ -25,7 +34,10 @@
                 </div>
             </div>
         </header>
+        
+        <!-- Main content area -->
         <main>
+            <!-- Quiz setup section for category and difficulty selection -->
             <div id="setup-container">
                 <div class="setup-section">
                     <h3>Choose Category</h3>
@@ -45,20 +57,32 @@
                     </select>
                 </div>
             </div>
+            
+            <!-- Question display section (hidden initially) -->
             <div id="question-container" class="hide">
                 <h2 id="question">Question</h2>
+                <!-- Answer buttons container using fieldset for accessibility -->
                 <fieldset id="answer-buttons" class="btn-grid" aria-labelledby="question">
                 </fieldset>
+                <!-- Explanation text (shown after answering) -->
                 <div id="explanation" class="explanation hide"></div>
             </div>
+            
+            <!-- Control buttons -->
             <div class="controls">
                 <button id="start-btn" class="start-btn btn" aria-describedby="instructions">Start Quiz</button>
                 <button id="next-btn" class="next-btn btn hide">Next Question</button>
             </div>
+            
+            <!-- Instructions and high score display -->
             <p id="instructions" class="instructions">Select your preferred category and difficulty level!</p>
             <div id="high-score" class="high-score hide">High Score: <span id="best-score">0</span>%</div>
         </main>
+        
+        <!-- Confetti animation container -->
         <div id="confetti-container" class="confetti-container"></div>
+        
+        <!-- Background particle animation elements -->
         <div class="particles">
             <div class="particle"></div>
             <div class="particle"></div>

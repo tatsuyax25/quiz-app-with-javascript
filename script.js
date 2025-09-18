@@ -1,3 +1,5 @@
+// ===== DOM ELEMENT REFERENCES =====
+// Get references to all UI elements for manipulation
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
@@ -17,8 +19,12 @@ const explanationElement = document.getElementById('explanation')
 const progressFill = document.getElementById('progress-fill')
 const confettiContainer = document.getElementById('confetti-container')
 
+// ===== GLOBAL VARIABLES =====
+// Variables to track quiz state
 let shuffledQuestions, currentQuestionIndex, score, timer, timeLeft
 
+// ===== EVENT LISTENERS =====
+// Set up event handlers for user interactions
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
     currentQuestionIndex++
@@ -27,6 +33,11 @@ nextButton.addEventListener('click', () => {
 
 themeToggle.addEventListener('click', toggleTheme)
 
+// ===== THEME MANAGEMENT =====
+/**
+ * Toggle between light and dark themes
+ * Saves preference to localStorage
+ */
 function toggleTheme() {
     document.body.classList.toggle('dark-mode')
     const isDark = document.body.classList.contains('dark-mode')
@@ -34,6 +45,10 @@ function toggleTheme() {
     localStorage.setItem('darkMode', isDark)
 }
 
+/**
+ * Load saved theme preference from localStorage
+ * Called on page load
+ */
 function loadTheme() {
     const isDark = localStorage.getItem('darkMode') === 'true'
     if (isDark) {
@@ -42,20 +57,34 @@ function loadTheme() {
     }
 }
 
+// Initialize theme on page load
 loadTheme()
 
+// ===== GAME FLOW FUNCTIONS =====
+/**
+ * Initialize and start a new quiz
+ * Gets selected category/difficulty and sets up the game state
+ */
 function startGame() {
     const category = categorySelect.value
     const difficulty = difficultySelect.value
     
+    // Hide setup UI and show quiz UI
     startButton.classList.add('hide')
     setupContainer.classList.add('hide')
+    
+    // Get and shuffle questions for selected category/difficulty
     shuffledQuestions = getQuestionsByCategory(category, difficulty).sort(() => Math.random() - .5)
+    
+    // Initialize game state
     currentQuestionIndex = 0
     score = 0
+    
+    // Show quiz elements
     questionContainerElement.classList.remove('hide')
     progressElement.classList.remove('hide')
     totalQuestionsElement.textContent = shuffledQuestions.length
+    
     loadHighScore()
     setNextQuestion()
 }
